@@ -181,3 +181,15 @@ h1 em, h2 em, .sub em { background:linear-gradient(100deg,var(--blue) 20%,#fffff
   .lb-arrow { width:40px; height:40px; }
 }
 @media (prefers-reduced-motion:reduce) { * { animation-duration:.01s !important; } }
+
+/* ---------- birthday gate: until her day arrives, only hero + countdown exist ---------- */
+body:not(.party-time) .panel-photo,
+body:not(.party-time) .panel-video,
+body:not(.party-time) .panel-flip,
+body:not(.party-time) .panel-gallery,
+body:not(.party-time) .panel-letter,
+body:not(.party-time) .panel-finale,
+body:not(.party-time) #dots,
+body:not(.party-time) #counter,
+body:not(.party-time) .progress-line { display:none; }
+.test-badge { position:fixed; left:50%; top:76px; transform:translateX(-50%); z-index:60; padding:9px 14px; border:1px dashed rgba(142,205,240,.55); border-radius:999px; color:var(--blue-pale); background:rgba(11,21,34,.78); font:500 9px "DM Mono",monospace; letter-spacing:.14em; text-transform:uppercase; pointer-events:none; }

@@ -2,6 +2,27 @@ const $ = (id) => document.getElementById(id);
 
 /* ---------- Yangon countdown ---------- */
 const units = { days: $('days'), hours: $('hours'), minutes: $('minutes'), seconds: $('seconds') };
+
+/* ---------- birthday gate: the story only reveals on her day ----------
+   Locked (default): only the hero + countdown are visible.
+   Unlocked: it is Aug 29 in Yangon, the countdown hit zero while open,
+   or the page is opened with ?test to preview the birthday state. */
+const TEST_MODE = new URLSearchParams(location.search).has('test');
+let unlocked = false;
+function unlockStory() {
+  if (unlocked) return;
+  unlocked = true;
+  document.body.classList.add('party-time');
+  if (TEST_MODE) {
+    const badge = document.createElement('div');
+    badge.className = 'test-badge';
+    badge.textContent = 'test mode · pretending it is her birthday';
+    document.body.appendChild(badge);
+  }
+  // Defer the burst: heartBurst reads consts defined later in this file, so calling
+  // it synchronously here (script top) would throw and abort the rest of the script.
+  setTimeout(() => heartBurst(innerWidth / 2, innerHeight * .35, 30), 0);
+}
 function yangonParts(date = new Date()) {
   const parts = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Yangon', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hourCycle: 'h23' }).formatToParts(date);
   return Object.fromEntries(parts.filter(p => p.type !== 'literal').map(p => [p.type, +p.value]));
@@ -10,17 +31,17 @@ function birthdayCountdown() {
   const now = new Date();
   const y = yangonParts(now);
   // Yangon is UTC+06:30, so this constructs the target at local midnight in Yangon.
-  let target = Date.UTC(y.year, 7, 28, 17, 30, 0);
+  let target = Date.UTC(y.year, 7, 27, 17, 30, 0);
   const currentYangon = Date.UTC(y.year, y.month - 1, y.day, y.hour, y.minute, y.second);
   if (currentYangon > target + 86400000) target = Date.UTC(y.year + 1, 7, 28, 17, 30, 0);
-  const remaining = Math.max(0, target - now.getTime());
+  const remaining = TEST_MODE ? 0 : Math.max(0, target - now.getTime());
   const totalSeconds = Math.floor(remaining / 1000);
   const values = { days: Math.floor(totalSeconds / 86400), hours: Math.floor(totalSeconds % 86400 / 3600), minutes: Math.floor(totalSeconds % 3600 / 60), seconds: totalSeconds % 60 };
   Object.entries(values).forEach(([key, value]) => {
     const el = units[key], text = String(value).padStart(2, '0');
     if (el.textContent !== text) { el.textContent = text; el.classList.add('tick'); setTimeout(() => el.classList.remove('tick'), 200); }
   });
-  if (!remaining) $('countdown-note').textContent = 'Today is all about you. Happy Birthday!';
+  if (!remaining) { $('countdown-note').textContent = 'Today is all about you. Happy Birthday!'; unlockStory(); }
 }
 function updateYangonClock() {
   const time = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Yangon', hour: '2-digit', minute: '2-digit', hour12: true }).format(new Date());
@@ -199,8 +220,10 @@ addEventListener('keydown', (e) => {
     if (e.key === 'ArrowLeft') openLightbox(lbIndex - 1);
     return;
   }
-  if (e.key === 'ArrowRight' || e.key === 'PageDown') panels[Math.min(current + 1, panels.length - 1)].scrollIntoView({ behavior: 'smooth' });
-  if (e.key === 'ArrowLeft' || e.key === 'PageUp') panels[Math.max(current - 1, 0)].scrollIntoView({ behavior: 'smooth' });
+  const visible = panels.filter(p => p.offsetParent);
+  const at = visible.indexOf(panels[current]);
+  if (e.key === 'ArrowRight' || e.key === 'PageDown') visible[Math.min(at + 1, visible.length - 1)].scrollIntoView({ behavior: 'smooth' });
+  if (e.key === 'ArrowLeft' || e.key === 'PageUp') visible[Math.max(at - 1, 0)].scrollIntoView({ behavior: 'smooth' });
 });
 
 /* ---------- typewriter love letter ---------- */
