@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#22112d" />
+  <title>For You, On Your Day</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <canvas id="sky" aria-hidden="true"></canvas>
+  <main>
+    <nav class="topbar"><span class="monogram">A29</span><span>made with all my love</span><span id="yangon-time">Yangon · --:--</span></nav>
+
+    <section class="hero">
+      <p class="eyebrow">A small corner of the internet for you</p>
+      <h1>August <em>twenty-ninth.</em><br>My favorite day.</h1>
+      <p class="intro">The day the world got a little softer, sweeter, and more beautiful — because you arrived in it.</p>
+
+      <div class="countdown-wrap">
+        <div class="countdown-label"><span></span> Until your next birthday <span></span></div>
+        <div id="countdown" class="countdown" aria-label="Birthday countdown">
+          <div><strong id="days">00</strong><small>days</small></div>
+          <i>:</i><div><strong id="hours">00</strong><small>hours</small></div>
+          <i>:</i><div><strong id="minutes">00</strong><small>minutes</small></div>
+          <i>:</i><div><strong id="seconds">00</strong><small>seconds</small></div>
+        </div>
+        <p id="countdown-note">Counting every little moment.</p>
+      </div>
+      <a class="scroll-cue" href="#memories">scroll for a little surprise <b>↓</b></a>
+    </section>
+
+    <section id="memories" class="memories">
+      <div class="section-heading"><p class="eyebrow">A few reasons why</p><h2>You are <em>magic.</em></h2></div>
+      <div class="polaroids">
+        <figure class="photo photo-one"><img src="Images/0-02-06-e5da14458d95b7c88cd12911ecfd96b23cd999562b22cb678960436f88d76fc1_dcd59730bb08913.jpg" alt="A beautiful photo of the birthday girl"><figcaption>the softest smile</figcaption></figure>
+        <figure class="photo photo-two"><img src="Images/0-02-06-8eee4b9f4dba2a1014d07055b75a72df1b1ea32d988acd86aa3bb5e3c83cda60_b048a70f19ab0762.jpg" alt="A playful close-up photo"><figcaption>pure sunshine</figcaption></figure>
+        <figure class="photo photo-three"><img src="Images/0-02-06-80e500b0e427516fe542e401a040cf007181f4ac304becbf1bc155c13fcd96a1_a92946e9c8d856f1.jpg" alt="A video-style portrait photo"><figcaption>one of a kind</figcaption></figure>
+      </div>
+    </section>
+
+    <section class="letter">
+      <span class="sparkle s1">✦</span><span class="sparkle s2">✧</span>
+      <p class="eyebrow">A birthday wish, already waiting</p>
+      <h2>May this next year<br>feel like a <em>love letter</em><br>to yourself.</h2>
+      <p>More laughter that catches you by surprise. More dreams that come true. More days where you see yourself the way the people who love you do — completely unforgettable.</p>
+      <button id="wish-button" type="button">Make a birthday wish <span>→</span></button>
+      <div id="wish" class="wish" aria-live="polite">I hope every wish you make finds its way back to you. ♡</div>
+    </section>
+  </main>
+  <footer>For the girl born on August 29, 2006 <span>♥</span></footer>
+  <script src="script.js"></script>
+</body>
+</html>
