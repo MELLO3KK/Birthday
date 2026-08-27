@@ -9,7 +9,57 @@ const units = { days: $('days'), hours: $('hours'), minutes: $('minutes'), secon
    or the page is opened with ?test to preview the birthday state. */
 const TEST_MODE = new URLSearchParams(location.search).has('test');
 let unlocked = false;
-function unlockStory() {
+let wasCounting = false;
+
+function grandCelebration() {
+  let fwCount = 0;
+  const fwInterval = setInterval(() => {
+    const x = innerWidth * 0.15 + Math.random() * innerWidth * 0.7;
+    const y = innerHeight * 0.15 + Math.random() * innerHeight * 0.5;
+    const fw = document.createElement('div');
+    fw.className = 'firework';
+    fw.style.left = x + 'px';
+    fw.style.top = y + 'px';
+    document.body.appendChild(fw);
+    for (let i = 0; i < 45; i++) {
+      const ray = document.createElement('i');
+      const angle = Math.random() * Math.PI * 2;
+      const velocity = 70 + Math.random() * 150;
+      ray.style.setProperty('--tx', Math.cos(angle) * velocity + 'px');
+      ray.style.setProperty('--ty', Math.sin(angle) * velocity + 'px');
+      const colors = ['#ff7aa2', '#ffc15e', '#8ecdf0', '#d9f2ff', '#bfe4fa'];
+      ray.style.color = colors[Math.floor(Math.random() * colors.length)];
+      ray.style.backgroundColor = 'currentColor';
+      fw.appendChild(ray);
+    }
+    setTimeout(() => fw.remove(), 1500);
+    fwCount++;
+    if (fwCount > 12) clearInterval(fwInterval);
+  }, 400);
+
+  for (let i = 0; i < 18; i++) {
+    setTimeout(() => {
+      const b = document.createElement('div');
+      b.className = 'balloon roaming';
+      b.style.left = (Math.random() * 90) + '%';
+      b.style.animationDelay = '0s';
+      b.style.animationDuration = (8 + Math.random() * 5) + 's';
+      b.style.transform = `scale(${0.5 + Math.random() * 0.5})`;
+      b.addEventListener('animationend', () => b.remove());
+      document.body.appendChild(b);
+    }, i * 250);
+  }
+
+  let bursts = 0;
+  const burstInterval = setInterval(() => {
+    if (typeof heartBurst !== 'undefined') {
+      heartBurst(Math.random() * innerWidth, Math.random() * innerHeight, 35);
+    }
+    if (++bursts > 14) clearInterval(burstInterval);
+  }, 350);
+}
+
+function unlockStory(isLive = false) {
   if (unlocked) return;
   unlocked = true;
   document.body.classList.add('party-time');
@@ -19,9 +69,21 @@ function unlockStory() {
     badge.textContent = 'test mode · pretending it is her birthday';
     document.body.appendChild(badge);
   }
-  // Defer the burst: heartBurst reads consts defined later in this file, so calling
-  // it synchronously here (script top) would throw and abort the rest of the script.
-  setTimeout(() => heartBurst(innerWidth / 2, innerHeight * .35, 30), 0);
+  
+  setTimeout(() => {
+    const idx = typeof current !== 'undefined' ? current : 1;
+    if ($('counter') && typeof panels !== 'undefined') $('counter').textContent = `${String(idx + 1).padStart(2, '0')} / ${String(panels.length).padStart(2, '0')}`;
+    if (typeof dots !== 'undefined') dots.forEach((d, j) => d.classList.toggle('on', j === idx));
+    if ($('progress-bar') && typeof panels !== 'undefined') $('progress-bar').style.width = ((idx + 1) / panels.length * 100) + '%';
+  }, 50);
+
+  grandCelebration();
+
+  if (isLive) {
+    setTimeout(() => {
+      if (typeof panels !== 'undefined' && panels[2]) panels[2].scrollIntoView({ behavior: 'smooth' });
+    }, 4500);
+  }
 }
 function yangonParts(date = new Date()) {
   const parts = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Yangon', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hourCycle: 'h23' }).formatToParts(date);
@@ -31,17 +93,20 @@ function birthdayCountdown() {
   const now = new Date();
   const y = yangonParts(now);
   // Yangon is UTC+06:30, so this constructs the target at local midnight in Yangon.
-  let target = Date.UTC(y.year, 7, 27, 17, 30, 0);
-  const currentYangon = Date.UTC(y.year, y.month - 1, y.day, y.hour, y.minute, y.second);
-  if (currentYangon > target + 86400000) target = Date.UTC(y.year + 1, 7, 28, 17, 30, 0);
+  let target = Date.UTC(y.year, 7, 28, 17, 30, 0);
+  const birthdayEnd = Date.UTC(y.year, 7, 29, 17, 30, 0);
+  if (now.getTime() >= birthdayEnd) target = Date.UTC(y.year + 1, 7, 28, 17, 30, 0);
+  
   const remaining = TEST_MODE ? 0 : Math.max(0, target - now.getTime());
+  if (remaining > 0) wasCounting = true;
+  
   const totalSeconds = Math.floor(remaining / 1000);
   const values = { days: Math.floor(totalSeconds / 86400), hours: Math.floor(totalSeconds % 86400 / 3600), minutes: Math.floor(totalSeconds % 3600 / 60), seconds: totalSeconds % 60 };
   Object.entries(values).forEach(([key, value]) => {
     const el = units[key], text = String(value).padStart(2, '0');
     if (el.textContent !== text) { el.textContent = text; el.classList.add('tick'); setTimeout(() => el.classList.remove('tick'), 200); }
   });
-  if (!remaining) { $('countdown-note').textContent = 'Today is all about you. Happy Birthday!'; unlockStory(); }
+  if (!remaining) { $('countdown-note').textContent = 'Today is all about you. Happy Birthday!'; unlockStory(wasCounting); }
 }
 function updateYangonClock() {
   const time = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Yangon', hour: '2-digit', minute: '2-digit', hour12: true }).format(new Date());
