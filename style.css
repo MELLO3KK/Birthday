@@ -51,9 +51,13 @@ h2 { font-size:clamp(40px,6.5vw,84px); }
 .photo-bg { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0; transform:scale(1.12); }
 .panel.active .photo-bg { opacity:.82; animation:kenburnsA 9s ease-out both; }
 .panel.alt.active .photo-bg { animation-name:kenburnsB; }
+.video-poster { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:.82; transform:scale(1.06); }
 @keyframes kenburnsA { from { transform:scale(1.18) translateX(2%); } to { transform:scale(1.02) translateX(0); } }
 @keyframes kenburnsB { from { transform:scale(1.02) translateX(-2%); } to { transform:scale(1.18) translateX(0); } }
-.photo-shade { position:absolute; inset:0; background:linear-gradient(180deg,rgba(11,21,34,.62),rgba(11,21,34,.18) 42%,rgba(11,21,34,.88)); }
+.photo-shade { position:absolute; inset:0; z-index:1; background:linear-gradient(180deg,rgba(11,21,34,.62),rgba(11,21,34,.18) 42%,rgba(11,21,34,.88)); }
+.media-fallback { position:absolute; inset:0; z-index:0; display:none; align-items:center; justify-content:center; padding:24px; color:var(--blue-pale); font:italic 20px "Playfair Display",serif; background:radial-gradient(ellipse at center,rgba(38,90,140,.62),rgba(11,21,34,.96)); }
+.panel.media-failed .photo-bg, .panel.media-failed .video-bg { display:none; }
+.panel-photo.media-failed .media-fallback { display:flex; }
 .photo-num { position:absolute; right:4vw; bottom:-3vh; z-index:0; font:600 clamp(120px,24vw,300px) "Playfair Display",serif; color:transparent; -webkit-text-stroke:1px rgba(165,216,245,.22); line-height:1; user-select:none; }
 .photo-card { position:relative; z-index:2; max-width:640px; }
 .photo-card h3 { margin:0 0 14px; font:600 clamp(38px,6vw,72px) "Playfair Display",serif; letter-spacing:-.04em; line-height:1; text-shadow:0 4px 30px rgba(11,21,34,.8); }

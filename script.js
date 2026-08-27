@@ -49,7 +49,6 @@ const photos = [
   { f: 'f0bdd70f9d6f5efe6f2ed19dd94b4d9a4842f1aa8f8669c78b48d05a9b90b015_7feec6e6ab9e9ebe.jpg', t: 'And <em>today…</em>', s: 'we celebrate you. one more scroll, my love ♡' }
 ];
 const videos = [
-  { f: '3e88ead51b0956485db243238cf98ceaaf7fabf513e8c5cdec3b94c587a18ce0_dd082766f78ed239.mp4', t: 'Us, in <em>motion.</em>', s: 'my favorite movie stars you.' },
   { f: '7995397acc37cf3f218be2da4530dfbedc268b127a05a0e80ed5ae206c5e2298_161d3e205a323f7e.mp4', t: 'That <em>laugh.</em>', s: 'the soundtrack of my whole life.' },
   { f: 'a4b8dca6ac2e36fab93cd94e57a33d89f38e32f383a240f26acc50805743aa96_9d1fc08de4233b7a.mp4', t: 'Caught being <em>cute.</em>', s: 'as usual. as always.' },
   { f: 'c7a9942938a5445200aa2c944c0f0a315e41a9d65db103d36b539973abf524a2_6acdba89ba17b51a.mp4', t: 'My favorite <em>view.</em>', s: 'moving, glowing, unforgettable.' },
@@ -69,17 +68,18 @@ photos.forEach((p, i) => {
 });
 while (vi < videos.length) { vi++; story.push({ type: 'video', f: videos[vi - 1].f, t: videos[vi - 1].t, s: videos[vi - 1].s, n: vi }); }
 
-const letterPanel = $('letter-panel');
+const storyAnchor = $('story-anchor');
 story.forEach((m, i) => {
   const sec = document.createElement('section');
   sec.className = 'panel ' + (m.type === 'video' ? 'panel-video' : 'panel-photo') + (i % 2 ? ' alt' : '');
   sec.dataset.label = m.type === 'video' ? `Reel ${String(m.n).padStart(2, '0')}` : `Chapter ${String(m.n).padStart(2, '0')}`;
   const chip = m.type === 'video' ? `reel ${String(m.n).padStart(2, '0')} · us in motion` : `chapter ${String(m.n).padStart(2, '0')} · our story`;
   const media = m.type === 'video'
-    ? `<video class="video-bg" src="Images/0-02-06-${m.f}" muted loop playsinline preload="metadata"></video><div class="v-badge">▶</div><button class="v-sound" type="button" aria-label="Toggle sound">🔇</button>`
-    : `<img class="photo-bg" src="Images/0-02-06-${m.f}" alt="A beautiful photo of the birthday girl" loading="lazy">`;
+    ? `<img class="video-poster" src="Images/0-02-06-${photos[Math.min(m.n * 2, photos.length - 1)].f}" alt=""><video class="video-bg" src="Images/0-02-06-${m.f}" poster="Images/0-02-06-${photos[Math.min(m.n * 2, photos.length - 1)].f}" muted loop playsinline autoplay preload="auto"></video><div class="v-badge">▶</div><button class="v-sound" type="button" aria-label="Toggle sound">🔇</button>`
+    : `<img class="photo-bg" src="Images/0-02-06-${m.f}" alt="A beautiful photo of the birthday girl" loading="eager" decoding="async">`;
   sec.innerHTML = `
     ${media}
+    <div class="media-fallback" role="status">This memory could not load.</div>
     <div class="photo-shade"></div>
     <div class="photo-num">${String(i + 1).padStart(2, '0')}</div>
     <div class="photo-card">
@@ -87,7 +87,12 @@ story.forEach((m, i) => {
       <h3 class="a ${i % 2 ? 'a-right' : 'a-left'}" style="--d:.25s">${m.t}</h3>
       <p class="a a-up" style="--d:.55s">${m.s}</p>
     </div>`;
-  letterPanel.before(sec);
+  storyAnchor.before(sec);
+});
+
+/* A missing asset should never leave an empty slide. */
+document.querySelectorAll('.photo-bg, .video-bg').forEach((media) => {
+  media.addEventListener('error', () => media.closest('.panel').classList.add('media-failed'), { once: true });
 });
 
 /* video interactions: tap the video/backdrop to pause/play, button for sound */
