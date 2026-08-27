@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#22112d" />
+  <meta name="theme-color" content="#0b1522" />
   <title>For You, On Your Day</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,46 +12,81 @@
 </head>
 <body>
   <canvas id="sky" aria-hidden="true"></canvas>
-  <main>
-    <nav class="topbar"><span class="monogram">A29</span><span>made with all my love</span><span id="yangon-time">Yangon · --:--</span></nav>
+  <div id="romance" aria-hidden="true"></div>
 
-    <section class="hero">
-      <p class="eyebrow">A small corner of the internet for you</p>
-      <h1>August <em>twenty-ninth.</em><br>My favorite day.</h1>
-      <p class="intro">The day the world got a little softer, sweeter, and more beautiful — because you arrived in it.</p>
+  <div class="progress-line"><span id="progress-bar"></span></div>
+  <nav class="topbar"><span class="monogram">A29</span><span class="topbar-love">made with all my love</span><span id="yangon-time">Yangon · --:--</span></nav>
+  <div id="dots" class="dots" aria-label="Slide navigation"></div>
+  <div id="counter" class="counter">01 / 19</div>
+  <div id="cue" class="cue">scroll · tap anywhere <b>♥</b></div>
 
-      <div class="countdown-wrap">
-        <div class="countdown-label"><span></span> Until your next birthday <span></span></div>
-        <div id="countdown" class="countdown" aria-label="Birthday countdown">
-          <div><strong id="days">00</strong><small>days</small></div>
-          <i>:</i><div><strong id="hours">00</strong><small>hours</small></div>
-          <i>:</i><div><strong id="minutes">00</strong><small>minutes</small></div>
-          <i>:</i><div><strong id="seconds">00</strong><small>seconds</small></div>
-        </div>
-        <p id="countdown-note">Counting every little moment.</p>
-      </div>
-      <a class="scroll-cue" href="#memories">scroll for a little surprise <b>↓</b></a>
+  <main id="stage">
+    <section class="panel panel-hero" data-label="Hello">
+      <p class="eyebrow a a-up">a little corner of the internet, just for you</p>
+      <h1 class="split big-title">August 29</h1>
+      <p class="sub a a-up" style="--d:.9s">my favorite day — because it is the day <em>you</em> arrived.</p>
     </section>
 
-    <section id="memories" class="memories">
-      <div class="section-heading"><p class="eyebrow">A few reasons why</p><h2>You are <em>magic.</em></h2></div>
-      <div class="polaroids">
-        <figure class="photo photo-one"><img src="Images/0-02-06-e5da14458d95b7c88cd12911ecfd96b23cd999562b22cb678960436f88d76fc1_dcd59730bb08913.jpg" alt="A beautiful photo of the birthday girl"><figcaption>the softest smile</figcaption></figure>
-        <figure class="photo photo-two"><img src="Images/0-02-06-8eee4b9f4dba2a1014d07055b75a72df1b1ea32d988acd86aa3bb5e3c83cda60_b048a70f19ab0762.jpg" alt="A playful close-up photo"><figcaption>pure sunshine</figcaption></figure>
-        <figure class="photo photo-three"><img src="Images/0-02-06-80e500b0e427516fe542e401a040cf007181f4ac304becbf1bc155c13fcd96a1_a92946e9c8d856f1.jpg" alt="A video-style portrait photo"><figcaption>one of a kind</figcaption></figure>
+    <section class="panel panel-count" data-label="Countdown">
+      <p class="eyebrow a a-up">until your next birthday, in Yangon time</p>
+      <h2 class="a a-blur">Counting<br><em>every second.</em></h2>
+      <div class="countdown a a-zoom" style="--d:.5s" aria-label="Birthday countdown">
+        <div><strong id="days">00</strong><small>days</small></div>
+        <i>:</i><div><strong id="hours">00</strong><small>hours</small></div>
+        <i>:</i><div><strong id="minutes">00</strong><small>minutes</small></div>
+        <i>:</i><div><strong id="seconds">00</strong><small>seconds</small></div>
+      </div>
+      <p id="countdown-note" class="note a a-up" style="--d:.9s">every little moment until we celebrate you.</p>
+    </section>
+
+    <!-- photo panels are built here by script.js -->
+
+    <section class="panel panel-flip" data-label="Reasons" id="flip-panel">
+      <p class="eyebrow a a-up">why i love you — tap the cards</p>
+      <h2 class="a a-blur">Six little <em>reasons.</em></h2>
+      <div class="flip-grid">
+        <div class="flip-card a a-up" style="--d:.2s"><div class="flip-inner"><div class="flip-front"><i>♡</i><b>Your smile</b><small>tap me</small></div><div class="flip-back">it restarts my heart every single time.</div></div></div>
+        <div class="flip-card a a-up" style="--d:.35s"><div class="flip-inner"><div class="flip-front"><i>✦</i><b>Your kindness</b><small>tap me</small></div><div class="flip-back">you are gentle with the world, even when it isn't gentle back.</div></div></div>
+        <div class="flip-card a a-up" style="--d:.5s"><div class="flip-inner"><div class="flip-front"><i>☾</i><b>Your laugh</b><small>tap me</small></div><div class="flip-back">my favorite sound in any room, anywhere.</div></div></div>
+        <div class="flip-card a a-up" style="--d:.65s"><div class="flip-inner"><div class="flip-front"><i>✿</i><b>Your dreams</b><small>tap me</small></div><div class="flip-back">watching you chase them is my favorite show.</div></div></div>
+        <div class="flip-card a a-up" style="--d:.8s"><div class="flip-inner"><div class="flip-front"><i>★</i><b>Your heart</b><small>tap me</small></div><div class="flip-back">the softest, strongest thing I have ever known.</div></div></div>
+        <div class="flip-card a a-up" style="--d:.95s"><div class="flip-inner"><div class="flip-front"><i>❀</i><b>You</b><small>tap me</small></div><div class="flip-back">simply, completely, endlessly — you.</div></div></div>
       </div>
     </section>
 
-    <section class="letter">
-      <span class="sparkle s1">✦</span><span class="sparkle s2">✧</span>
-      <p class="eyebrow">A birthday wish, already waiting</p>
-      <h2>May this next year<br>feel like a <em>love letter</em><br>to yourself.</h2>
-      <p>More laughter that catches you by surprise. More dreams that come true. More days where you see yourself the way the people who love you do — completely unforgettable.</p>
-      <button id="wish-button" type="button">Make a birthday wish <span>→</span></button>
-      <div id="wish" class="wish" aria-live="polite">I hope every wish you make finds its way back to you. ♡</div>
+    <section class="panel panel-gallery" data-label="Gallery" id="gallery-panel">
+      <p class="eyebrow a a-up">every single frame of you</p>
+      <h2 class="a a-blur">Tap a <em>memory.</em></h2>
+      <div id="gallery-grid" class="gallery-grid"></div>
+    </section>
+
+    <section class="panel panel-letter" data-label="A letter" id="letter-panel">
+      <span class="sparkle s1">✦</span><span class="sparkle s2">✧</span><span class="sparkle s3">✦</span>
+      <div class="letter-card a a-blur">
+        <p class="eyebrow">a birthday letter, typed slowly, with love</p>
+        <p id="typed"></p><span id="caret" class="caret"></span>
+        <p class="sign">— forever yours</p>
+      </div>
+    </section>
+
+    <section class="panel panel-finale" data-label="The wish" id="finale-panel">
+      <div class="balloon b1"></div><div class="balloon b2"></div><div class="balloon b3"></div>
+      <p class="eyebrow a a-up">today, tomorrow, always</p>
+      <h1 class="big-title a a-zoom">Happy<br><em>Birthday</em></h1>
+      <p class="sub a a-up" style="--d:1s">to the most beautiful soul in my universe. I love you. <span class="beat">♡</span></p>
+      <button id="wish-button" class="a a-up" type="button" style="--d:1.3s">make a birthday wish <span>→</span></button>
+      <div id="wish" class="wish" aria-live="polite">close your eyes… now blow the candles. I hope every wish finds its way back to you. ♡</div>
+      <p class="finale-foot a a-up" style="--d:1.6s">for the girl born on August 29, 2006 <span class="beat">♥</span></p>
     </section>
   </main>
-  <footer>For the girl born on August 29, 2006 <span>♥</span></footer>
+
+  <div id="lightbox" class="lightbox" hidden>
+    <button class="lb-close" id="lb-close" type="button" aria-label="Close">×</button>
+    <button class="lb-arrow lb-prev" id="lb-prev" type="button" aria-label="Previous memory">←</button>
+    <img id="lb-img" src="" alt="A memory photo">
+    <button class="lb-arrow lb-next" id="lb-next" type="button" aria-label="Next memory">→</button>
+    <p id="lb-cap" class="lb-cap"></p>
+  </div>
   <script src="script.js"></script>
 </body>
 </html>
