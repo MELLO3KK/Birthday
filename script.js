@@ -292,7 +292,7 @@ addEventListener('keydown', (e) => {
 });
 
 /* ---------- typewriter love letter ---------- */
-const LETTER = 'Every day I wonder how I got so lucky. You walk into a room and my whole world gets softer. On your birthday I just want you to know — you are loved more than words, more than stars, more than yesterday, and even more than tomorrow.';
+const LETTER = 'Happy birthday ပါ ကိုယ့်အချစ်ဆုံး babe‌လေးရေ။ ပျော်ရွင်စရာမွေးနေ့ဖြစ်ပါစေ။ ဘဝမှာဖြစ်ချင်တာတွေအကုန်ဖြစ်ပြီး ဘဝမှာ စိတ်ညစ်မစရာ‌မရှိဘဲ အကုန်အဆင်ပြေပါစေ။ Babe ဖြစ်ချင်တဲ့ ဆရာဝန်ကြီးလည်း ဖြစ်ပါစေလို့ဆုတောင်းပါပေးပါတယ်။ Italy visa အမြန်ရပြီး Babe တက်ချင်တဲ့ University ကိုဝင်ခွင့်ရပါစေ။ ချစ်တယ် Love you ❤️"';
 function typeLetter() {
   const out = $('typed'); let i = 0;
   (function tick() {
